@@ -21,6 +21,8 @@ load_figure_template(templates)
 # with open('lr_yokyo_model', 'rb') as f:
 #     lr = pickle.load(f)
 
+server - app.server
+
 # initialise the App
 server = Flask(__name__)
 # app = dash.Dash(__name__, server=server, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.BOOTSTRAP])
