@@ -3,7 +3,6 @@ dash_bootstrap_components==1.4.1
 dash_bootstrap_templates==1.0.8
 Flask==2.3.2
 pandas==1.5.2
-pandas==1.4.4
 plotly==5.14.1
 scikit_learn==1.2.0
 
