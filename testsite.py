@@ -156,7 +156,6 @@ date_slider = dcc.DatePickerRange(
     style={'width': '100%'}
 )
 
-
 # Group the data by country and count the number of occurrences for each country
 country_counts = df.groupby("Country").size()
 
