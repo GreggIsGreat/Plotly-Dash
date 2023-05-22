@@ -5,4 +5,4 @@ Flask==1.1.2
 pandas
 plotly==5.14.1
 scikit_learn
-
+gunicorn
