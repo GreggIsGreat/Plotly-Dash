@@ -10,6 +10,8 @@ from dash.dependencies import Input, Output, State
 from dash_bootstrap_templates import load_figure_template
 from sklearn.preprocessing import LabelEncoder
 import pickle
+from dash import dash_table
+
 
 templates = [
     "LUX"
@@ -62,10 +64,54 @@ user_agent_aliases = {
     # Replace User Agent values with aliases
 df["User Agent"] = df["User Agent"].replace(user_agent_aliases)
 
-Header_component = html.H1("Yokyo Olympics Dashboard",
-                           style={'textAlign': 'left',
-                                  'color': '#503D36',
-                                  'font-size': 50})
+# Create a DataTable component to display the data
+table = dash_table.DataTable(
+    id='table',
+    columns=[{"name": i, "id": i} for i in df.columns],
+    data=df.to_dict('records'),
+)
+
+# Create a Modal component to display the table
+modal = dbc.Modal(
+    [
+        dbc.ModalHeader("Yokyo Webserver Log Data"),
+        dbc.ModalBody(table),
+        dbc.ModalFooter(
+            dbc.Button("Close", id="close", className="ml-auto")
+        ),
+    ],
+    id="modal",
+    size="xl",
+)
+
+# Create a button to open the modal
+button = dbc.Button("View Data", id="open")
+
+# Add callback to open the modal
+@app.callback(
+    Output("modal", "is_open"),
+    [Input("open", "n_clicks"), Input("close", "n_clicks")],
+    [State("modal", "is_open")],
+)
+def toggle_modal(n1, n2, is_open):
+    if n1 or n2:
+        return not is_open
+    return is_open
+
+
+Header_component = html.Div([
+        html.H1(
+            "Yokyo Olympics Dashboard",
+            style={"color": "#503D36", "font-size": 50},
+        ),
+        html.Div(button),
+    ],
+    style={
+        "display": "flex",
+        "justify-content": "space-between",
+        "align-items": "center",
+    },)
+
 
 status_meanings = {
     200: 'OK',
@@ -191,6 +237,7 @@ app.layout = html.Div(
             dbc.Col(card_total_requests),
             # dbc.Col(new_page_card)
         ]),
+        modal
     ]
 )
 
@@ -364,6 +411,7 @@ app.layout.children.append(
 app.layout.children[1].children.extend(
     [dbc.Col(card) for card in cards]
 )
+
 
 
 # __________________________________________________________________________________________________________________________
