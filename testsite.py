@@ -11,6 +11,10 @@ from dash_bootstrap_templates import load_figure_template
 from sklearn.preprocessing import LabelEncoder
 import pickle
 from dash import dash_table
+import io
+import base64
+from PIL import Image
+
 
 
 templates = [
@@ -87,6 +91,53 @@ modal = dbc.Modal(
 # Create a button to open the modal
 button = dbc.Button("View Data", id="open")
 
+report_button =  dbc.Button("Report", id="report", color= "danger")
+
+# @app.callback(
+#     Output('report', 'children'),
+#     Input('report', 'n_clicks'),
+#     prevent_initial_call=True
+# )
+# def generate_report(n_clicks):
+#     # Create in-memory binary streams for each chart
+#     pie_stream = io.BytesIO()
+#     hist_stream = io.BytesIO()
+#     line_stream = io.BytesIO()
+
+#     # Save static images of each chart to the corresponding stream
+#     pie_fig.write_image(pie_stream, format='png')
+#     hist_fig.write_image(hist_stream, format='png')
+#     line_fig.write_image(line_stream, format='png')
+
+#     # Reset the stream positions
+#     pie_stream.seek(0)
+#     hist_stream.seek(0)
+#     line_stream.seek(0)
+
+#     # Create Image objects from the streams
+#     pie_image = Image.open(pie_stream)
+#     hist_image = Image.open(hist_stream)
+#     line_image = Image.open(line_stream)
+
+#     # Calculate the dimensions of the final image
+#     width = max(pie_image.width, hist_image.width, line_image.width)
+#     height = pie_image.height + hist_image.height + line_image.height
+
+#     # Create a new Image object with the calculated dimensions
+#     report_image = Image.new('RGB', (width, height))
+
+#     # Paste the chart images into the report image
+#     y_offset = 0
+#     for image in [pie_image, hist_image, line_image]:
+#         report_image.paste(image, (0, y_offset))
+#         y_offset += image.height
+
+#     # Save the report image to a file
+#     report_image.save('report.png')
+
+#     # Return a message indicating that the report was generated successfully
+#     return 'Report generated successfully!'
+
 # Add callback to open the modal
 @app.callback(
     Output("modal", "is_open"),
@@ -104,7 +155,7 @@ Header_component = html.Div([
             "Yokyo Olympics Dashboard",
             style={"color": "#503D36", "font-size": 50},
         ),
-        html.Div(button),
+        html.Div([button, report_button]),
     ],
     style={
         "display": "flex",
