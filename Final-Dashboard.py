@@ -15,8 +15,6 @@ import io
 import base64
 from PIL import Image
 
-
-
 templates = [
     "LUX"
 ]
@@ -40,7 +38,7 @@ df = pd.read_csv("yokyo.log", sep=" ", header=None,
                         "Path", "Status Code","HTTP Version","Traffic Source", "User Agent", "Country"])
 # df = df.sample(frac=1)
 
-    # Define aliases for User Agent and Path
+# Define aliases for User Agent and Path
 user_agent_aliases = {
     # Desktop devices
     "Mozilla/5.0-(Windows-NT-10.0;-Win64;-x64)-AppleWebKit/537.36-(KHTML,-like-Gecko)-Chrome/90.0.4430.212-Safari/537.36": "Windows Chrome",
